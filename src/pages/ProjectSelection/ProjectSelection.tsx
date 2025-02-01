@@ -1,7 +1,8 @@
+import "./Project.css";
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadProjects } from '../store/actions.ts';
-import { RootState } from '../store/store';
+import { loadProjects } from '../../store/actions.ts';
+import { RootState } from '../../store/store.ts';
 import { Link } from 'react-router-dom';
 
 
@@ -17,17 +18,14 @@ export const ProjectSelector = () => {
     <div className='project'>
       <h2>Список проектов</h2>
       <Link to="/task" style={{ textDecoration: 'none' }}>
-        <div>
+        <div className='container-card-project'>
           {projects.map((project: { id: any; title: any; }) => (
             <div className="card" key={project.id}>
               <div className="box">
                 <div className="content">
                   <h1>
-                    {project.id}
-                  </h1>
-                  <div className="subtitle1">
                     {project.title}
-                  </div>
+                  </h1>
                 </div> 
               </div>
             </div>

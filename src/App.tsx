@@ -1,9 +1,10 @@
 
 import './App.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import {ProjectSelector} from './pages/ProjectSelection.tsx'
+
 import React from 'react';
 import { TaskComponent } from './pages/TaskBoard.tsx';
+import { ProjectSelector } from './pages/ProjectSelection/ProjectSelection.tsx';
 
 export const App = () => {
   return (

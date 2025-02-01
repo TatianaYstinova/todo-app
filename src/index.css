@@ -1,13 +1,13 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body{
+    background-image: url(https://img.freepik.com/free-photo/pile-organized-documents_23-2149396707.jpg?t=st=1738412587~exp=1738416187~hmac=7cd8df9a3ee9f0f4d7676a3c528e6ebed74c93581ffdfe4b5e326fb7b2af47d8&w=1380) ;
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-position: center; 
+    height: 97vh; 
+    margin: 0; 
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+h2 , h1{
+    font-family: "Poppins", serif;
+    font-weight: 400;
+    font-style: normal;  
 }
