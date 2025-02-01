@@ -1,0 +1,19 @@
+.container {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+}
+
+.fields {
+    display: flex;
+    flex-direction: column; /* Вертикальное расположение */
+    gap: 20px; /* Промежуток между полями */
+}
+
+.field {
+    background-color: #f0f0f0; /* Цвет фона для полей */
+    padding: 20px; /* Внутренние отступы */
+    border: 1px solid #ccc; /* Граница */
+    border-radius: 4px; /* Закругленные углы */
+    width: 100%; /* Поля занимают всю ширину */
+}

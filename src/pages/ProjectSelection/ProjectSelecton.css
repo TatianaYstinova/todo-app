@@ -1,0 +1,10 @@
+.card{
+    display: flex;
+}
+.box{
+    display: flex;
+    flex-direction: column;
+}
+.subtitle1{
+    color: green 
+}
