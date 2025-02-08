@@ -1,7 +1,8 @@
+import '../../index.css';
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadTasks } from "../../store/actions.ts";
-import { TaskField } from "../../components/TaskField/TaskField.tsx";
+import { TaskField } from "../../components/task-column/TaskColumn.tsx";
 import { useSearchParams } from "react-router-dom";
 import { CurrentStatusTask, State, Task } from "../../store/reducers.ts";
 import { Search } from "../../components/Search/Search.tsx";
@@ -48,7 +49,7 @@ export const TaskComponent = () => {
 
   return (
     <div>
-      <h1>Список задач</h1>
+      <h1 className="default-font">Список задач</h1>
       <Search onSearch={handleSearch}/>
       <TaskField
         todoTasks={groupedTasks[CurrentStatusTask.Queue]}

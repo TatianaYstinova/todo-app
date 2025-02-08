@@ -1,6 +1,9 @@
+import "../../index.css";
+import "./CardTask.css";
 import React, { useState } from "react";
 import { CurrentStatusTask, Prioritys } from "../../store/reducers.ts";
-import {Modal} from "../../modals/Modal.tsx";
+import { Modal } from "../../modals/Modal.tsx";
+import { Typo } from "../../shared/index.ts";
 
 export const CardTask = ({ task }) => {
   const [subTasks, setSubTasks] = useState<string[]>([]);
@@ -10,7 +13,6 @@ export const CardTask = ({ task }) => {
     const newSubTask = prompt("Введите подзадачу:");
     if (newSubTask) setSubTasks([...subTasks, newSubTask]);
   };
- 
 
   const getPriorityString = (priority: Prioritys): string => {
     switch (priority) {
@@ -44,16 +46,25 @@ export const CardTask = ({ task }) => {
       <div>
         <div className="card" key={task.id}>
           <div className="box">
-            <div className="content">
-              <h1>Id:{task.id}</h1>
-              <div>{task.header}</div>
-              Дата создания :{task.createDate}
-              <br />
-              Приоритет : {getPriorityString(task.priority)}
-              <br />
-              Текущий статус :{getStatusString(task.currentStatus)}
+            <div className="content default-font">
+              <h4>
+                {task.id} - {task.header}
+              </h4>
+              <Typo size="small">Дата создания :{task.createDate}</Typo>
+              <Typo size="small">
+                Приоритет : {getPriorityString(task.priority)}
+              </Typo>
+              <Typo size="small">
+                Текущий статус :{getStatusString(task.currentStatus)}
+              </Typo>
               <div className="details">
-                <button onClick={()=>{setIsModalOpen(true)}}>Детали</button>
+                <button
+                  onClick={() => {
+                    setIsModalOpen(true);
+                  }}
+                >
+                  Детали
+                </button>
               </div>
               <div>
                 {task.attachedFiles.length > 0 && (
@@ -76,7 +87,11 @@ export const CardTask = ({ task }) => {
           </div>
         </div>
       </div>
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Детали задачи">
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Детали задачи"
+      >
         <h2>Описание: {task.title}</h2>
         <p>Время в работе: {task.timeWork}</p>
         <p>Дата окончания: {task.endDate}</p>

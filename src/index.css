@@ -1,13 +1,27 @@
-body{
-    background-image: url(https://img.freepik.com/free-photo/pile-organized-documents_23-2149396707.jpg?t=st=1738412587~exp=1738416187~hmac=7cd8df9a3ee9f0f4d7676a3c528e6ebed74c93581ffdfe4b5e326fb7b2af47d8&w=1380) ;
-    background-repeat: no-repeat;
-    background-size: cover; 
-    background-position: center; 
-    height: 97vh; 
-    margin: 0; 
+body {
+  height: 97vh;
+  margin: 0;
 }
-h2 , h1{
-    font-family: "Poppins", serif;
-    font-weight: 400;
-    font-style: normal;  
+
+@font-face {
+  font-family: "Roboto";
+  src: local("GilroyRegular"),
+    url("./fonts/Roboto-VariableFont_wdth,wght.ttf") format("opentype");
+  font-weight: normal;
+}
+
+.default-font {
+  font-family: Roboto;
+}
+
+.small {
+  font-size: 12px;
+}
+
+.medium {
+  font-size: 14px;
+}
+
+.large {
+  font-size: 16px;
 }

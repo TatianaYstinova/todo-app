@@ -1,24 +1,25 @@
+import '../../index.css';
 import React from "react";
-import "./TaskField.css";
-import { CardTask } from "../../components/CardTask/CardTask.tsx";
+import "./TaskColumn.css";
+import { CardTask } from "../CardTask/CardTask.tsx";
 
 export const TaskField = ({ todoTasks, inProgressTasks, doneTasks }) => {
   return (
     <div className="container">
-      <div className="field">
-        <h2>Ожидает</h2>
+      <div className="column default-font">
+        <h3>Ожидает</h3>
         {todoTasks.map((task) => (
           <CardTask key={task.id} task={task} />
         ))}
       </div>
-      <div className="field">
-        <h2>В процессе</h2>
+      <div className="column default-font">
+        <h3>В процессе</h3>
         {inProgressTasks.map((task) => (
           <CardTask key={task.id} task={task} />
         ))}
       </div>
-      <div className="field">
-        <h2>Завершено</h2>
+      <div className="column default-font">
+        <h3>Завершено</h3>
         {doneTasks.map((task) => (
           <CardTask key={task.id} task={task} />
         ))}

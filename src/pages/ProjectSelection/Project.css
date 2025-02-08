@@ -8,16 +8,6 @@
   align-items: center;
 }
 
-.card {
-  margin: 10px 0;
-  border: 1px solid #0c0c0c;
-  border-radius: 28px;
-  padding: 10px;
-  cursor: move;
-  background-color: #dff2ef;
-  transition: background-color 0.5s;
-}
-
 .box {
   margin-bottom: 10px;
   .content h1 {
