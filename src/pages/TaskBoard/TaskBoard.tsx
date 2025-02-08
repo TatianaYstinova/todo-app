@@ -4,6 +4,7 @@ import { loadTasks } from "../../store/actions.ts";
 import { TaskField } from "../../components/TaskField/TaskField.tsx";
 import { useSearchParams } from "react-router-dom";
 import { CurrentStatusTask, State, Task } from "../../store/reducers.ts";
+import { Search } from "../../components/Search/Search.tsx";
 
 type GrouppedTasks = {
   [K in CurrentStatusTask]: Task[];
@@ -15,19 +16,18 @@ export const TaskComponent = () => {
   const [queryParams, setQueryParams] = useSearchParams();
   const projectId = queryParams.get("projectId");
 
-  const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       dispatch(loadTasks({ projectId: projectId ?? undefined }));
-      setLoading(false);
     };
 
     fetchData();
   }, [dispatch, projectId]);
 
-  console.log({ tasks: tasks });
+  const handleSearch = (term) => {
+    // Логика поиска по номеру задачи и названию
+    console.log("Ищем:", term);
+  };
 
   const groupedTasks = useMemo(
     () =>
@@ -49,6 +49,7 @@ export const TaskComponent = () => {
   return (
     <div>
       <h1>Список задач</h1>
+      <Search onSearch={handleSearch}/>
       <TaskField
         todoTasks={groupedTasks[CurrentStatusTask.Queue]}
         inProgressTasks={groupedTasks[CurrentStatusTask.Development]}
