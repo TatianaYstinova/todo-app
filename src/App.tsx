@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import React from 'react';
-import { TaskComponent } from './pages/TaskBoard.tsx';
+import { TaskComponent } from './pages/TaskBoard/TaskBoard.tsx';
 import { ProjectSelector } from './pages/ProjectSelection/ProjectSelection.tsx';
 
 export const App = () => {
@@ -13,7 +13,7 @@ export const App = () => {
       <BrowserRouter>
       <Routes>
         <Route path="" element={<ProjectSelector />} />
-        <Route path='/task' element={<TaskComponent/>} />
+        <Route path='/tasks' element={<TaskComponent/>} />
       </Routes>
       </BrowserRouter>
     

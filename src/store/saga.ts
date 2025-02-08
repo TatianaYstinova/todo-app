@@ -2,7 +2,6 @@ import { takeEvery, call, put } from "redux-saga/effects";
 import axios from "axios";
 import {
   loadTasks,
-  addTask,
   LOAD_TASKS,
   ADD_TASK,
   EDIT_TASK,
@@ -10,6 +9,8 @@ import {
   loadProjects,
   LOAD_PROJECTS,
   ADD_SUBTASK,
+  saveProjects,
+  saveTasks,
 } from "./actions.ts";
 import { Task } from "./reducers.ts";
 
@@ -17,25 +18,15 @@ import { Task } from "./reducers.ts";
 const API_URL = "http://localhost:777";
 
 // Функции для выполнения запросов
-function* fetchTasks() {
+function* fetchTasks(action:ReturnType<typeof loadTasks>) {
   try {
-    const response = yield call(axios.get<Task>, `${API_URL}/tasks`);
-    yield put(loadTasks(response.data));
+    const { projectId } = action.payload;
+    const response = yield call(axios.get<Task>, `${API_URL}/tasks`, {
+      params: { projectId},
+    });
+    yield put(saveTasks(response.data));
   } catch (error) {
     console.error("Error fetching tasks:", error);
-  }
-}
-
-function* createTask(action) {
-  try {
-    const response = yield call(
-      axios.post<Task>,
-      `${API_URL}/tasks`,
-      action.payload
-    );
-    yield put(addTask(response.data));
-  } catch (error) {
-    console.error("Error creating task:", error);
   }
 }
 
@@ -76,7 +67,8 @@ function* addSubtask(action) {
 function* fetchProjects() {
   try {
     const response = yield call(axios.get, `${API_URL}/projects`);
-    yield put(loadProjects(response.data));
+
+    yield put(saveProjects(response.data));
   } catch (error) {
     console.error("Error fetching projects:", error);
   }
@@ -85,7 +77,6 @@ function* fetchProjects() {
 // Основная функция для запуска саг
 export function* watchTasks() {
   yield takeEvery(LOAD_TASKS, fetchTasks);
-  yield takeEvery(ADD_TASK, createTask);
   yield takeEvery(EDIT_TASK, editTask);
   yield takeEvery(DELETE_TASK, deleteTask);
   yield takeEvery(LOAD_PROJECTS, fetchProjects);

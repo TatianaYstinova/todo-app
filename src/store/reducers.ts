@@ -1,10 +1,10 @@
 import {
-  ADD_TASK,
-  EDIT_TASK,
-  DELETE_TASK,
-  LOAD_TASKS,
-  LOAD_PROJECTS,
+  SAVE_PROJECTS,
+  TasksActions,
+  SAVE_TASKS,
+  ProjectsActions,
 } from "./actions.ts";
+
 export interface Task {
   id: number;
   header: string;
@@ -13,62 +13,65 @@ export interface Task {
   timeWork: string;
   endDate: string;
   priority: Prioritys;
-  attachedFiles: string [];
+  attachedFiles: string[];
   currentStatus: CurrentStatusTask;
-  comment:Comment[] ;
-  
+  comment: Comment[];
+  projectId: string;
 }
-export enum Prioritys{
+
+export enum Prioritys {
   Low,
   Medium,
   High,
-  Critical
+  Critical,
 }
-export enum CurrentStatusTask{
-Queue,
-Development,
-Done,
+
+export enum CurrentStatusTask {
+  Queue,
+  Development,
+  Done,
 }
+
 export interface Comment {
   id: number;
   text: string;
   replies: Comment[];
 }
+
 export interface Project {
   id: string;
   title: string;
 }
-interface State {
+
+export interface State {
   tasks: Task[];
   projects: Project[];
 }
-const initialState = {
+
+export const initialState: State = {
   tasks: [],
   projects: [],
 };
 
-export const taskReducer = (state: State = initialState, action) => {
+export const taskReducer = (
+  state: State["tasks"] | undefined = initialState.tasks,
+  action: TasksActions
+) => {
   switch (action.type) {
-    case ADD_TASK:
-      return { ...state, tasks: [...state.tasks, action.payload] };
-       case EDIT_TASK:
-           return {
-               ...state,
-               tasks: state.tasks.map(task => task.id === action.payload.id ? action.payload : task)
-           };
-       case DELETE_TASK:
-           return { ...state, tasks: state.tasks.filter(task => task.id !== action.payload) };
-    case LOAD_TASKS:
-      return { ...state, tasks: [...state.tasks, action.payload] };
+    case SAVE_TASKS:
+      return action.payload;
     default:
       return state;
   }
 };
 
-export const projectReducer = (state = initialState, action) => {
+export const projectReducer = (
+  state: State["projects"] | undefined = initialState.projects,
+  action: ProjectsActions
+) => {
   switch (action.type) {
-    case LOAD_PROJECTS:
-      return { ...state, projects: action.payload };
+    case SAVE_PROJECTS:
+      return action.payload;
     default:
       return state;
   }
