@@ -1,30 +1,30 @@
 import "../../index.css";
-import React from "react";
-import { useState } from "react";
+import "./Search.css";
+import React, { ChangeEventHandler, useCallback } from "react";
 
-export const Search = ({ onSearch }) => {
-  const [searchTerm, setSearchTerm] = useState("");
+interface SearchProps {
+  value?: string;
+  onChange?: (value?: string) => void;
+}
 
-  const handleChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
+export const Search: React.FC<SearchProps> = ({ value, onChange }) => {
+  const _onChage = useCallback<ChangeEventHandler<HTMLInputElement>>(
+    (e) => {
+      if (onChange) {
+        onChange(e.currentTarget.value);
+      }
+    },
+    [onChange]
+  );
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (onSearch) onSearch(searchTerm);
-  };
   return (
-    <form onSubmit={handleSubmit} className="search-form">
+    <div className="search">
       <input
         type="text"
         placeholder="Поиск по номеру задачи или названию"
-        value={searchTerm}
-        onChange={handleChange}
-        className="search-input default-font"
+        value={value ?? ""}
+        onInput={_onChage}
       />
-      <button type="submit" className="search-button default-font">
-        Поиск
-      </button>
-    </form>
+    </div>
   );
 };

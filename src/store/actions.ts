@@ -1,4 +1,4 @@
-import { Project, Task } from "./reducers";
+import { CurrentStatusTask, Project, Task } from "./reducers";
 
 export const ADD_TASK = "ADD_TASK";
 export const EDIT_TASK = "EDIT_TASK";
@@ -8,11 +8,13 @@ export const ADD_SUBTASK = "ADD_SUBTASK";
 export const LOAD_PROJECTS = "LOAD_PROJECTS";
 export const SAVE_PROJECTS = "SAVE_PROJECTS";
 export const SAVE_TASKS = "SAVE_TASKS";
+export const UPDATE_TASK_STATUS = "UPDATE_TASK_STATUS";
 
 //--TASKS----------------------
 export interface TasksFilters {
-  title?: string;
+  taskHeader?: string;
   projectId?: string;
+  taskNumber?: string;
 }
 
 export const loadTasks = (filters: TasksFilters) =>
@@ -28,7 +30,17 @@ export const saveTasks = (tasks: Task[]) =>
 
 export type TasksActions =
   | ReturnType<typeof loadTasks>
-  | ReturnType<typeof saveTasks>;
+  | ReturnType<typeof saveTasks>
+  | ReturnType<typeof updateTaskStatus>;
+
+export const updateTaskStatus = (
+  taskId: number,
+  newStatus: CurrentStatusTask
+) =>
+  ({
+    type: UPDATE_TASK_STATUS,
+    payload: { taskId, newStatus },
+  } as const);
 
 //--PROJECTS------------------
 export const loadProjects = () => ({ type: LOAD_PROJECTS } as const);

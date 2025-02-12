@@ -3,6 +3,7 @@ import {
   TasksActions,
   SAVE_TASKS,
   ProjectsActions,
+  UPDATE_TASK_STATUS
 } from "./actions.ts";
 
 export interface Task {
@@ -42,15 +43,21 @@ export interface Project {
   id: string;
   title: string;
 }
+export interface Searh {
+  id: string;
+  title: string;
+}
 
 export interface State {
   tasks: Task[];
   projects: Project[];
+  search: Searh[];
 }
 
 export const initialState: State = {
   tasks: [],
   projects: [],
+  search: [],
 };
 
 export const taskReducer = (
@@ -60,6 +67,12 @@ export const taskReducer = (
   switch (action.type) {
     case SAVE_TASKS:
       return action.payload;
+      case UPDATE_TASK_STATUS: {
+        const { taskId, newStatus } = action.payload;
+        return state.map(task =>
+          task.id === taskId ? { ...task, currentStatus: newStatus } : task
+        );
+      }
     default:
       return state;
   }
