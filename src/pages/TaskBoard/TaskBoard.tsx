@@ -75,22 +75,7 @@ export const TaskComponent = () => {
       return prev;
     });
   };
-  const onDragEnd = (result) => {
-    if (!result.destination) return;
-
-    // Получаем задачу
-    const draggedTask = tasks[result.source.index];
-
-    // Обновляем статус задачи в зависимости от столбца
-    const newStatus = result.destination.droppableId;
-
-    // Здесь вам нужно будет обновить статус задачи в вашем состоянии
-    // Например, вызвать действие Redux для обновления статуса задачи
-    dispatch(updateTaskStatus(draggedTask.id, newStatus));
-
-    
-  };
-
+  
   return (
     <div>
       <h1 className="default-font">Список задач</h1>
