@@ -1,7 +1,7 @@
 import "../../index.css";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadTasks } from "../../store/actions.ts";
+import { loadTasks, NewStatusTask, updateTask } from "../../store/actions.ts";
 import { TaskField } from "../../components/task-column/TaskColumn.tsx";
 import { useSearchParams } from "react-router-dom";
 import { CurrentStatusTask, State, Task } from "../../store/reducers.ts";
@@ -18,7 +18,7 @@ export const TaskComponent = () => {
   const [query, setQuery] = useSearchParams();
   const projectId = query.get("projectId");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const searchQuery = query.get("search") || ""; // используем одно поле для поиска
+  const searchQuery = query.get("search") || ""; 
   
 
   useEffect(() => {
@@ -75,6 +75,9 @@ export const TaskComponent = () => {
       return prev;
     });
   };
+  const moveCard = (id:number, newStatus:NewStatusTask) => {
+    dispatch(updateTask(id, newStatus));
+  };
   
   return (
     <div>
@@ -84,6 +87,7 @@ export const TaskComponent = () => {
         todoTasks={groupedTasks[CurrentStatusTask.Queue]}
         inProgressTasks={groupedTasks[CurrentStatusTask.Development]}
         doneTasks={groupedTasks[CurrentStatusTask.Done]}
+        moveCard={moveCard}
       />
       <Modal
         isOpen={isModalOpen}
@@ -95,3 +99,5 @@ export const TaskComponent = () => {
     </div>
   );
 };
+
+

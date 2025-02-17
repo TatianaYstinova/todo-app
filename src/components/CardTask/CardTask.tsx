@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { CurrentStatusTask, Prioritys } from "../../store/reducers.ts";
 import { Modal } from "../../modals/Modal.tsx";
 import { Typo } from "../../shared/index.ts";
+import { useDrag } from "react-dnd";
 
 export const CardTask = ({ task }) => {
   const [subTasks, setSubTasks] = useState<string[]>([]);
@@ -40,68 +41,84 @@ export const CardTask = ({ task }) => {
         return "Неизвестный статус";
     }
   };
+  const [{ isDragging }, drag] = useDrag({
+    type: "TASK",
+    item: task,
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
 
   return (
-    <div className="card-task">
-      <div>
-        <div className="card" key={task.id}>
-          <div className="box">
-            <div className="content default-font">
-              <h4>
-                {task.id} - {task.header}
-              </h4>
-              <Typo size="small">Дата создания :{task.createDate}</Typo>
-              <Typo size="small">
-                Приоритет : {getPriorityString(task.priority)}
-              </Typo>
-              <Typo size="small">
-                Текущий статус :{getStatusString(task.currentStatus)}
-              </Typo>
-              <div className="details">
-                <button
-                  onClick={() => {
-                    setIsModalOpen(true);
-                  }}
-                >
-                  Детали
-                </button>
-              </div>
-              <div>
-                {task.attachedFiles.length > 0 && (
-                  <div>
-                    <h3>Прикрепленные файлы:</h3>
-                    {task.attachedFiles.map((fileUrl, index) => (
-                      <img
-                        key={index}
-                        src={fileUrl}
-                        alt={`attached file ${index}`}
-                        style={{ width: "100px", height: "100px" }}
-                      />
-                    ))}
+    <div
+      ref={(arg) => {
+        drag(arg, task);
+      }}
+      style={{ opacity: isDragging ? 0.5 : 1 }}
+    >
+      <div className="card-task">
+        <div className="card-task">
+          <div>
+            <div className="card" key={task.id}>
+              <div className="box">
+                <div className="content default-font">
+                  <h4>
+                    {task.id} - {task.header}
+                  </h4>
+                  <Typo size="small">Дата создания :{task.createDate}</Typo>
+                  <Typo size="small">
+                    Приоритет : {getPriorityString(task.priority)}
+                  </Typo>
+                  <Typo size="small">
+                    Текущий статус :{getStatusString(task.currentStatus)}
+                  </Typo>
+                  <div className="details">
+                    <button
+                      onClick={() => {
+                        setIsModalOpen(true);
+                      }}
+                    >
+                      Детали
+                    </button>
                   </div>
-                )}
+                  <div>
+                    {task.attachedFiles.length > 0 && (
+                      <div>
+                        <h3>Прикрепленные файлы:</h3>
+                        {task.attachedFiles.map((fileUrl, index) => (
+                          <img
+                            key={index}
+                            src={fileUrl}
+                            alt={`attached file ${index}`}
+                            style={{ width: "100px", height: "100px" }}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <button onClick={addSubTask}>Добавить подзадачи</button>
+                  <button>Редактировать</button>
+                </div>
               </div>
-              <button onClick={addSubTask}>Добавить подзадачи</button>
-              <button>Редактировать</button>
             </div>
           </div>
         </div>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Детали задачи"
+        >
+          <h2>Описание: {task.title}</h2>
+          <p>Время в работе: {task.timeWork}</p>
+          <p>Дата окончания: {task.endDate}</p>
+          <h3>Подзадачи:</h3>
+          <ul>
+            {subTasks.map((subTask, index) => (
+              <li key={index}>{subTask}</li>
+            ))}
+          </ul>
+        </Modal>
       </div>
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="Детали задачи"
-      >
-        <h2>Описание: {task.title}</h2>
-        <p>Время в работе: {task.timeWork}</p>
-        <p>Дата окончания: {task.endDate}</p>
-        <h3>Подзадачи:</h3>
-        <ul>
-          {subTasks.map((subTask, index) => (
-            <li key={index}>{subTask}</li>
-          ))}
-        </ul>
-      </Modal>
     </div>
   );
 };

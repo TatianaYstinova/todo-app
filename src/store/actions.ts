@@ -8,13 +8,17 @@ export const ADD_SUBTASK = "ADD_SUBTASK";
 export const LOAD_PROJECTS = "LOAD_PROJECTS";
 export const SAVE_PROJECTS = "SAVE_PROJECTS";
 export const SAVE_TASKS = "SAVE_TASKS";
-export const UPDATE_TASK_STATUS = "UPDATE_TASK_STATUS";
+export const UPDATE_TASK = "UPDATE_TASK";
 
 //--TASKS----------------------
 export interface TasksFilters {
   taskHeader?: string;
   projectId?: string;
   taskNumber?: string;
+}
+export interface NewStatusTask {
+  taskId: string;
+  newStatus: CurrentStatusTask;
 }
 
 export const loadTasks = (filters: TasksFilters) =>
@@ -31,14 +35,11 @@ export const saveTasks = (tasks: Task[]) =>
 export type TasksActions =
   | ReturnType<typeof loadTasks>
   | ReturnType<typeof saveTasks>
-  | ReturnType<typeof updateTaskStatus>;
+  | ReturnType<typeof updateTask>;
 
-export const updateTaskStatus = (
-  taskId: number,
-  newStatus: CurrentStatusTask
-) =>
+export const updateTask = (taskId: number, newStatus: NewStatusTask) =>
   ({
-    type: UPDATE_TASK_STATUS,
+    type: UPDATE_TASK,
     payload: { taskId, newStatus },
   } as const);
 
