@@ -1,4 +1,4 @@
-import { takeEvery, call, put, debounce } from "redux-saga/effects";
+import { takeEvery, call, put, debounce, select } from "redux-saga/effects";
 import axios from "axios";
 import {
   loadTasks,
@@ -12,9 +12,9 @@ import {
   saveTasks,
   UPDATE_TASK,
   SAVE_TASKS,
-  updateTask,
+  updateTaskStatus,
 } from "./actions.ts";
-import { Task } from "./reducers.ts";
+import { State, Task } from "./reducers.ts";
 
 const API_URL = "http://localhost:777";
 
@@ -34,12 +34,24 @@ function* fetchTasks(action: ReturnType<typeof loadTasks>) {
     console.error("Error fetching tasks:", error);
   }
 }
-function* updateTaskSaga(action: ReturnType<typeof updateTask>) {  
+function* updateTaskSaga(action: ReturnType<typeof updateTaskStatus>) {
   try {
-    const { taskId, newStatus } = action.payload;
-    const response = yield call(axios.put<Task>, `${API_URL}/tasks/${taskId}`, {
-      currentStatus: newStatus,
-    });
+    const { id, newStatus } = action.payload;
+    // Получить текущую задачу из состояния
+    const currentTask = yield select((state: State) =>
+      state.tasks.find((task) => task.id === id)
+    );
+
+    if (currentTask) {
+      const updatedTask = { ...currentTask, currentStatus: newStatus };
+      const response = yield call(
+        axios.put<Task>,
+        `${API_URL}/tasks/${id}`,
+        updatedTask
+      );
+
+      yield put(loadTasks(response.data));
+    }
   } catch (error) {
     console.error("Error updating task status:", error);
   }

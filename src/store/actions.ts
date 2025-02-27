@@ -16,11 +16,6 @@ export interface TasksFilters {
   projectId?: string;
   taskNumber?: string;
 }
-export interface NewStatusTask {
-  taskId: string;
-  newStatus: CurrentStatusTask;
-}
-
 export const loadTasks = (filters: TasksFilters) =>
   ({
     type: LOAD_TASKS,
@@ -35,12 +30,12 @@ export const saveTasks = (tasks: Task[]) =>
 export type TasksActions =
   | ReturnType<typeof loadTasks>
   | ReturnType<typeof saveTasks>
-  | ReturnType<typeof updateTask>;
+  | ReturnType<typeof updateTaskStatus>;
 
-export const updateTask = (taskId: number, newStatus: NewStatusTask) =>
+export const updateTaskStatus = ( id: number, newStatus: CurrentStatusTask) =>
   ({
     type: UPDATE_TASK,
-    payload: { taskId, newStatus },
+    payload: { id, newStatus },
   } as const);
 
 //--PROJECTS------------------

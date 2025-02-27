@@ -1,7 +1,7 @@
 import "../../index.css";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadTasks, NewStatusTask, updateTask } from "../../store/actions.ts";
+import { loadTasks, updateTaskStatus } from "../../store/actions.ts";
 import { TaskField } from "../../components/task-column/TaskColumn.tsx";
 import { useSearchParams } from "react-router-dom";
 import { CurrentStatusTask, State, Task } from "../../store/reducers.ts";
@@ -75,8 +75,8 @@ export const TaskComponent = () => {
       return prev;
     });
   };
-  const moveCard = (id:number, newStatus:NewStatusTask) => {
-    dispatch(updateTask(id, newStatus));
+  const moveCard = (id:number, newStatus:CurrentStatusTask) => {
+    dispatch(updateTaskStatus(id, newStatus));
   };
   
   return (
@@ -92,7 +92,7 @@ export const TaskComponent = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
-        title={`Задача с номером  и названием 
+        title={`Задача с номером ${searchQuery}
           не найдена.`}
         children={undefined}
       />

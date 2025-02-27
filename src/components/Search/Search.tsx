@@ -21,7 +21,7 @@ export const Search: React.FC<SearchProps> = ({ value, onChange }) => {
     <div className="search">
       <input
         type="text"
-        placeholder="Поиск по номеру задачи или названию"
+        placeholder="Поиск по номеру задачи "
         value={value ?? ""}
         onInput={_onChage}
       />

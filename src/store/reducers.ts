@@ -3,7 +3,7 @@ import {
   TasksActions,
   SAVE_TASKS,
   ProjectsActions,
-  UPDATE_TASK
+  UPDATE_TASK,
 } from "./actions.ts";
 
 export interface Task {
@@ -67,12 +67,12 @@ export const taskReducer = (
   switch (action.type) {
     case SAVE_TASKS:
       return action.payload;
-      case UPDATE_TASK: {
-        const { taskId, newStatus } = action.payload;
-        return state.map(task =>
-          task.id === taskId ? { ...task, currentStatus: newStatus } : task
-        );
-      }
+    case UPDATE_TASK: {
+      const { id, newStatus } = action.payload;
+      return state.map((task) =>
+        task.id === id ? { ...task, currentStatus: newStatus } : task
+      );
+    }
     default:
       return state;
   }
